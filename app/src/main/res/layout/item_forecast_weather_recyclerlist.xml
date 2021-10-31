@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:background="@color/black"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@drawable/rv_divider" />
+
+    <LinearLayout
+        android:padding="@dimen/sp_12"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!--日期-->
+        <TextView
+            android:id="@+id/tv_date_rv"
+            tools:text="1234"
+            android:gravity="left"
+            android:textSize="@dimen/forecast_list_text_size"
+            android:textColor="#FFF"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"/>
+        <!--天气描述-->
+        <TextView
+            android:gravity="center"
+            android:id="@+id/tv_info_rv"
+            tools:text="晴"
+            android:textSize="@dimen/forecast_list_text_size"
+            android:textColor="#FFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <!--最低温、最高温-->
+        <TextView
+            android:gravity="right"
+            android:id="@+id/tv_low_and_height_rv"
+            tools:text="10-20"
+            android:textSize="@dimen/forecast_list_text_size"
+            android:textColor="#FFF"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</LinearLayout>

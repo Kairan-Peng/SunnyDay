@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="sp_12">12sp</dimen>
+    <dimen name="lifestyle_brf">24sp</dimen>
+    <dimen name="lifestyle_type">15sp</dimen>
+    <dimen name="lifestyle_txt">12sp</dimen>
+    <dimen name="lifestyle_layout_height">170dp</dimen>
+    <dimen name="lifestyle_layout_margin">8dp</dimen>
+    <dimen name="forecast_list_text_size">21sp</dimen>
+</resources>

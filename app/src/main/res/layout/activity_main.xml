@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/pic_bg"
+    android:id="@+id/ll_main"
+    android:fitsSystemWindows="true"
+    android:gravity="center"
+    tools:context=".MainActivity">
+
+
+    <!--主要的布局文件-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/alpha_black_4"
+        android:orientation="vertical">
+        <!--标题 沉浸式-->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:contentInsetLeft="20dp"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/app_name"
+                android:textColor="#FFF"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/iv_city_select"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="right"
+                android:layout_marginHorizontal="30dp"
+                android:src="@drawable/icon_city" />
+
+            <ImageView
+                android:id="@+id/iv_location"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="left"
+                android:layout_marginHorizontal="30dp"
+                android:src="@drawable/icon_location" />
+        </androidx.appcompat.widget.Toolbar>
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.example.sunnyday.view.MyBezierCircleHeader
+                app:shhText="sunny day"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never">
+                <!--天气和所在城市 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+                    <!--城市-->
+                    <TextView
+                        android:id="@+id/tv_city"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:text="城市"
+                        android:textColor="#FFF"
+                        android:textSize="34sp" />
+
+                    <!--温度-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="9dp"
+                        android:gravity="top|center_horizontal"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_temperature"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="#FFF"
+                            android:textSize="80sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="℃"
+                            android:textColor="#FFF"
+                            android:textSize="40sp" />
+                    </LinearLayout>
+                    <!--天气状况-->
+                    <TextView
+                        android:id="@+id/tv_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="#FFF"
+                        android:textSize="24sp"
+                        tools:text="天气状况" />
+
+                    <!--最高温和最低温-->
+                    <TextView
+                        android:id="@+id/tv_low_height"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="9dp"
+                        android:textColor="#FFF"
+                        android:textSize="24sp"
+                        tools:text="最低温: 20℃     最高温: 30℃" />
+
+                    <!--上一次更新时间-->
+                    <TextView
+                        android:id="@+id/tv_old_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:text="上次更新时间："
+                        android:textColor="#BBB"
+                        android:textSize="@dimen/sp_12" />
+
+
+                    <!--3-10日天气预报-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="24dp"
+                        android:layout_marginTop="24dp"
+                        android:background="@xml/shape_radius"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="7dp"
+                            android:gravity="center"
+                            android:text="天气预报"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_forecast"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+
+                    <!--风力展示-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="24dp"
+                        android:background="@xml/shape_radius"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <RelativeLayout
+                            android:id="@+id/rl_wind"
+                            android:layout_width="100dp"
+                            android:layout_height="90dp">
+                            <!--大风车-->
+                            <com.example.sunnyday.view.WhiteWindmills
+                                android:id="@+id/ww_big"
+                                android:layout_width="80dp"
+                                android:layout_height="108dp" />
+                            <!--小风车-->
+                            <com.example.sunnyday.view.WhiteWindmills
+                                android:id="@+id/ww_small"
+                                android:layout_width="40dp"
+                                android:layout_height="48dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_alignParentBottom="true" />
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <!--风向-->
+                                <TextView
+                                    android:id="@+id/tv_wind_direction"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="风向"
+                                    android:textColor="#FFF"
+                                    android:textSize="16sp" />
+                                <!--风力-->
+                                <TextView
+                                    android:id="@+id/tv_wind_power"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:text="风力"
+                                    android:textColor="#FFF"
+                                    android:textSize="16sp" />
+                                <!--风速-->
+                                <TextView
+                                    android:id="@+id/tv_wind_speed"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:text="风速"
+                                    android:textColor="#FFF"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!--生活建议-->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:text="生活建议"
+                        android:textColor="@color/alpha_white_9"
+                        android:textSize="19sp" />
+
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="12dp"
+                        android:layout_marginTop="5dp"
+                        android:columnCount="2"
+                        android:orientation="horizontal">
+                        <!--舒适度-->
+                        <LinearLayout
+                            android:id="@+id/ll_comf"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/lifestyle_layout_height"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="@dimen/lifestyle_layout_margin"
+                            android:background="@xml/shape_radius"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="舒适度"
+                                android:textColor="@color/lifestyle_type"
+                                android:textSize="@dimen/lifestyle_type" />
+
+                            <TextView
+                                android:id="@+id/tv_comf_brf"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_margin="5dp"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="暂无数据"
+                                android:textColor="@color/lifestyle_brf"
+                                android:textSize="@dimen/lifestyle_brf" />
+
+                            <TextView
+                                android:id="@+id/tv_comf_txt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:text="暂无数据"
+                                android:textColor="@color/lifestyle_txt"
+                                android:textSize="@dimen/lifestyle_txt" />
+                        </LinearLayout>
+
+                        <!--穿衣指数-->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/lifestyle_layout_height"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="@dimen/lifestyle_layout_margin"
+                            android:background="@xml/shape_radius"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="穿衣指数"
+                                android:textColor="@color/lifestyle_type"
+                                android:textSize="@dimen/lifestyle_type" />
+
+                            <TextView
+                                android:id="@+id/tv_drsg_brf"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_margin="5dp"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="暂无数据"
+                                android:textColor="@color/lifestyle_brf"
+                                android:textSize="@dimen/lifestyle_brf" />
+
+                            <TextView
+                                android:id="@+id/tv_drsg_txt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:text="暂无数据"
+                                android:textColor="@color/lifestyle_txt"
+                                android:textSize="@dimen/lifestyle_txt" />
+                        </LinearLayout>
+                        <!--感冒指数-->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/lifestyle_layout_height"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="@dimen/lifestyle_layout_margin"
+                            android:background="@xml/shape_radius"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="感冒指数"
+                                android:textColor="@color/lifestyle_type"
+                                android:textSize="@dimen/lifestyle_type" />
+
+                            <TextView
+                                android:id="@+id/tv_flu_brf"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_margin="5dp"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="暂无数据"
+                                android:textColor="@color/lifestyle_brf"
+                                android:textSize="@dimen/lifestyle_brf" />
+
+                            <TextView
+                                android:id="@+id/tv_flu_txt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:text="暂无数据"
+                                android:textColor="@color/lifestyle_txt"
+                                android:textSize="@dimen/lifestyle_txt" />
+                        </LinearLayout>
+
+                        <!--运动指数-->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/lifestyle_layout_height"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="@dimen/lifestyle_layout_margin"
+                            android:background="@xml/shape_radius"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="运动指数"
+                                android:textColor="@color/lifestyle_type"
+                                android:textSize="@dimen/lifestyle_type" />
+
+                            <TextView
+                                android:id="@+id/tv_sport_brf"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_margin="5dp"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="暂无数据"
+                                android:textColor="@color/lifestyle_brf"
+                                android:textSize="@dimen/lifestyle_brf" />
+
+                            <TextView
+                                android:id="@+id/tv_sport_txt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:text="暂无数据"
+                                android:textColor="@color/lifestyle_txt"
+                                android:textSize="@dimen/lifestyle_txt" />
+                        </LinearLayout>
+
+                        <!--旅游指数-->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/lifestyle_layout_height"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="@dimen/lifestyle_layout_margin"
+                            android:background="@xml/shape_radius"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="旅游指数"
+                                android:textColor="@color/lifestyle_type"
+                                android:textSize="@dimen/lifestyle_type" />
+
+                            <TextView
+                                android:id="@+id/tv_trav_brf"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_margin="5dp"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="暂无数据"
+                                android:textColor="@color/lifestyle_brf"
+                                android:textSize="@dimen/lifestyle_brf" />
+
+                            <TextView
+                                android:id="@+id/tv_trav_txt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:text="暂无数据"
+                                android:textColor="@color/lifestyle_txt"
+                                android:textSize="@dimen/lifestyle_txt" />
+                        </LinearLayout>
+
+                        <!--紫外线指数-->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/lifestyle_layout_height"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="@dimen/lifestyle_layout_margin"
+                            android:background="@xml/shape_radius"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="紫外线指数"
+                                android:textColor="@color/lifestyle_type"
+                                android:textSize="@dimen/lifestyle_type" />
+
+                            <TextView
+                                android:id="@+id/tv_uv_brf"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_margin="5dp"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="暂无数据"
+                                android:textColor="@color/lifestyle_brf"
+                                android:textSize="@dimen/lifestyle_brf" />
+
+                            <TextView
+                                android:id="@+id/tv_uv_txt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:text="暂无数据"
+                                android:textColor="@color/lifestyle_txt"
+                                android:textSize="@dimen/lifestyle_txt" />
+                        </LinearLayout>
+
+                        <!--洗车指数-->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/lifestyle_layout_height"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="@dimen/lifestyle_layout_margin"
+                            android:background="@xml/shape_radius"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="洗车指数"
+                                android:textColor="@color/lifestyle_type"
+                                android:textSize="@dimen/lifestyle_type" />
+
+                            <TextView
+                                android:id="@+id/tv_cw_brf"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_margin="5dp"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="暂无数据"
+                                android:textColor="@color/lifestyle_brf"
+                                android:textSize="@dimen/lifestyle_brf" />
+
+                            <TextView
+                                android:id="@+id/tv_cw_txt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:text="暂无数据"
+                                android:textColor="@color/lifestyle_txt"
+                                android:textSize="@dimen/lifestyle_txt" />
+                        </LinearLayout>
+
+
+                        <!--空气污染扩散条件指数-->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/lifestyle_layout_height"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="@dimen/lifestyle_layout_margin"
+                            android:background="@xml/shape_radius"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="空气污染扩散条件指数"
+                                android:textColor="@color/lifestyle_type"
+                                android:textSize="@dimen/lifestyle_type" />
+
+                            <TextView
+                                android:id="@+id/tv_air_brf"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_margin="5dp"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="暂无数据"
+                                android:textColor="@color/lifestyle_brf"
+                                android:textSize="@dimen/lifestyle_brf" />
+
+                            <TextView
+                                android:id="@+id/tv_air_txt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:text="暂无数据"
+                                android:textColor="@color/lifestyle_txt"
+                                android:textSize="@dimen/lifestyle_txt" />
+                        </LinearLayout>
+                    </GridLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="30dp"
+                        android:text="Have a Great Day! 😃"
+                        android:textColor="@color/alpha_white_9"
+                        android:textSize="@dimen/sp_14" />
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    </LinearLayout>
+
+</LinearLayout>
